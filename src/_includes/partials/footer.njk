@@ -1,0 +1,19 @@
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <strong>{{ site.title }}</strong>
+      <span>{{ site.tagline }}</span>
+    </div>
+    <nav class="site-footer__links" aria-label="Footer">
+      <ul>
+        <li><a href="{{ site.social.github }}" rel="me noopener">GitHub</a></li>
+        <li><a href="{{ site.social.linkedin }}" rel="me noopener">LinkedIn</a></li>
+        <li><a href="{{ site.social.holosuite }}" rel="noopener">Holosuite Media</a></li>
+        <li><a href="{{ site.social.shadow }}" rel="noopener">Shadow Computers</a></li>
+      </ul>
+    </nav>
+    <p class="site-footer__meta">
+      &copy; {% year %} {{ site.author }}
+    </p>
+  </div>
+</footer>
