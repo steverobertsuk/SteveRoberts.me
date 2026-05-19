@@ -382,6 +382,23 @@ blockquote {
   margin: 0;
 }
 
+.page-header h1 i,
+.section__head h2 i,
+.prose h2 i,
+.timeline h3 i,
+.contact-item__label i,
+.site-nav a i,
+.site-footer__links a i,
+.btn i {
+  margin-right: 0.35rem;
+}
+
+.contact-item__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .prose {
   max-width: var(--maxw-prose);
   padding-top: 1.5rem;

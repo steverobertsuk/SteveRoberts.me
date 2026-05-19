@@ -4,9 +4,18 @@ layout: layouts/base.njk
 <article class="page">
   <header class="page-header">
     <div class="container">
-      {% if eyebrow %}<p class="eyebrow">{{ eyebrow }}</p>{% endif %}
-      <h1>{{ title }}</h1>
-      {% if lede %}<p class="lede">{{ lede }}</p>{% endif %}
+      {% if eyebrow %}
+        <p class="eyebrow">{{ eyebrow }}</p>
+      {% endif %}
+      <h1>
+        {% if pageIcon %}
+          <i class="{{ pageIcon }} fa-fw" aria-hidden="true"></i>
+        {% endif %}
+        <span>{{ title }}</span>
+      </h1>
+      {% if lede %}
+        <p class="lede">{{ lede }}</p>
+      {% endif %}
     </div>
   </header>
 
