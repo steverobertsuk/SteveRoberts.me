@@ -30,46 +30,46 @@ npm run clean       # remove _site/
 │   ├── _data/site.js       # Global site data: title, tagline, nav, social
 │   ├── _includes/
 │   │   ├── layouts/
-│   │   │   ├── base.njk    # HTML shell, meta tags, scripts
-│   │   │   └── page.njk    # Standard page wrapper with header + prose
+│   │   │   ├── base.11ty.njk    # HTML shell, meta tags, scripts
+│   │   │   └── page.11ty.njk    # Standard page wrapper with header + prose
 │   │   └── partials/
-│   │       ├── nav.njk     # Site header + responsive nav
-│   │       └── footer.njk
+│   │       ├── nav.11ty.njk     # Site header + responsive nav
+│   │       └── footer.11ty.njk
 │   ├── assets/
 │   │   ├── css/style.css   # All site styles
 │   │   └── img/            # SR monogram, proposal sheet
 │   ├── favicon.svg
 │   ├── robots.txt
-│   ├── index.njk           # Home
-│   ├── experience.njk
-│   ├── now.njk
-│   ├── timeline.njk
-│   ├── tools.njk
-│   ├── contact.njk
-│   ├── running.njk
+│   ├── index.11ty.njk           # Home
+│   ├── experience.11ty.njk
+│   ├── now.11ty.njk
+│   ├── timeline.11ty.njk
+│   ├── tools.11ty.njk
+│   ├── contact.11ty.njk
+│   ├── running.11ty.njk
 │   ├── projects/
-│   │   ├── index.njk
-│   │   ├── sto-info.njk
-│   │   ├── roll20.njk
-│   │   └── shadow-computers.njk
+│   │   ├── index.11ty.njk
+│   │   ├── sto-info.11ty.njk
+│   │   ├── roll20.11ty.njk
+│   │   └── shadow-computers.11ty.njk
 │   ├── media/
-│   │   ├── index.njk       # Gaming, media & creative
-│   │   └── holosuite.njk
+│   │   ├── index.11ty.njk       # Gaming, media & creative
+│   │   └── holosuite.11ty.njk
 │   └── themes/
-│       ├── community.njk
-│       ├── long-term-projects.njk
-│       ├── storytelling.njk
-│       └── sustainability.njk
+│       ├── community.11ty.njk
+│       ├── long-term-projects.11ty.njk
+│       ├── storytelling.11ty.njk
+│       └── sustainability.11ty.njk
 └── _site/                  # Build output (gitignored)
 ```
 
 ## Adding a new page
 
-Create `src/<slug>.njk` (or any nested folder) with this front matter:
+Create `src/<slug>.11ty.njk` (or any nested folder) with this front matter:
 
 ```njk
 ---
-layout: layouts/page.njk
+layout: layouts/page.11ty.njk
 title: My new page
 eyebrow: Section
 lede: One sentence summary that appears under the title.
