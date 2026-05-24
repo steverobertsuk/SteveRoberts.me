@@ -3,7 +3,7 @@ module.exports = {
   tagline: 'Code · Support · Geek',
   description:
     'Steve Roberts — Senior Software Engineer in Suffolk, England. Sustainable engineering, automation, media production, gaming, and long-term community projects.',
-  url: 'https://steveroberts.me',
+  url: process.env.SITE_URL || 'https://steveroberts.me',
   author: 'Steve Roberts',
   location: 'Suffolk, England',
   email: 'midnitegeek@googlemail.com',

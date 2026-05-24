@@ -15,7 +15,7 @@ Built with [Eleventy](https://www.11ty.dev/) (11ty). Dark theme, mobile-first, n
 
 ```bash
 npm install
-npm run serve       # http://localhost:8080 with live reload
+npm run serve       # http://localhost:8082 with live reload
 npm run build       # one-off build into _site/
 npm run clean       # remove _site/
 ```
