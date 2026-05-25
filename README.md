@@ -86,13 +86,13 @@ Then add it to the global nav by editing `src/_data/site.js` if it should appear
 
 Palette and monogram come from the SR Monogram Proposal supplied with the planning pack:
 
-| Token            | Hex       | Used for                                  |
-| ---------------- | --------- | ----------------------------------------- |
-| Primary Blue     | `#2563EB` | Buttons, gradient base, primary accents   |
-| Accent Blue      | `#60A5FA` | Links, hover, highlights, eyebrow text    |
-| Background       | `#0B1220` | Page background                           |
-| Surface          | `#111827` | Cards, panels, inline code                |
-| Text / Light     | `#E5E7EB` | Body text                                 |
+| Token        | Hex       | Used for                                |
+| ------------ | --------- | --------------------------------------- |
+| Primary Blue | `#2563EB` | Buttons, gradient base, primary accents |
+| Accent Blue  | `#60A5FA` | Links, hover, highlights, eyebrow text  |
+| Background   | `#0B1220` | Page background                         |
+| Surface      | `#111827` | Cards, panels, inline code              |
+| Text / Light | `#E5E7EB` | Body text                               |
 
 These are defined as CSS custom properties at the top of `src/assets/css/style.css` — change them there and the whole site re-themes.
 
@@ -102,12 +102,12 @@ These are defined as CSS custom properties at the top of `src/assets/css/style.c
 2. In the Cloudflare dashboard → **Pages** → **Create a project** → **Connect to Git**.
 3. Pick the repo, then use these build settings:
 
-   | Setting                | Value                  |
-   | ---------------------- | ---------------------- |
-   | Framework preset       | None (or Eleventy)     |
-   | Build command          | `npm run build`        |
-   | Build output directory | `_site`                |
-   | Root directory         | `/`                    |
+   | Setting                | Value                            |
+   | ---------------------- | -------------------------------- |
+   | Framework preset       | None (or Eleventy)               |
+   | Build command          | `npm run build`                  |
+   | Build output directory | `_site`                          |
+   | Root directory         | `/`                              |
    | Node version           | `20` (env var `NODE_VERSION=20`) |
 
 4. Add a custom domain (`steveroberts.me`) under Pages → Custom domains.
