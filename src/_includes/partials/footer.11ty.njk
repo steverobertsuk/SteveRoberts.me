@@ -36,6 +36,11 @@
     <p class="site-footer__meta">
       &copy; {% year %}
       {{ site.author }}
+      · <a href="/">Home</a>
+      · <a href="/projects/">Projects</a>
+      · <a href="/contact/">Contact</a>
+      · <a href="/privacy/">Privacy Policy</a>
+      {% if site.gaId %} · <a href="#" id="cookie-prefs-link">Cookie Preferences</a>{% endif %}
     </p>
   </div>
 </footer>

@@ -1,0 +1,111 @@
+{% if site.gaId %}
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="cookie-banner-inner container">
+    <div class="cookie-banner-body">
+      <p class="cookie-banner-title">Cookie preferences</p>
+      <p class="cookie-banner-text">
+        This site uses <strong>Google Analytics</strong> to understand how visitors use it.
+        Analytics only loads after you choose to accept it.
+        <a href="/privacy/#cookies">Read the privacy policy</a>
+      </p>
+    </div>
+    <div class="cookie-banner-actions">
+      <button class="btn btn--primary cookie-btn-accept" type="button">Accept analytics</button>
+      <button class="btn btn--ghost cookie-btn-decline" type="button">Decline</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var COOKIE = 'sr_consent';
+  var LEGACY_COOKIE = 'sr_concent';
+  var GA_ID = '{{ site.gaId }}';
+  var banner = document.getElementById('cookie-banner');
+
+  function getCookie(name) {
+    var match = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function setCookie(name, value, days) {
+    var expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/; SameSite=Lax';
+  }
+
+  function removeCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+  }
+
+  function loadAnalytics() {
+    if (!GA_ID || window._gaLoaded) return;
+
+    window._gaLoaded = true;
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(script);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID, { anonymize_ip: true });
+  }
+
+  function showBanner() {
+    if (!banner) return;
+    banner.removeAttribute('hidden');
+    var acceptButton = banner.querySelector('.cookie-btn-accept');
+    if (acceptButton) acceptButton.focus();
+  }
+
+  function hideBanner() {
+    if (banner) {
+      banner.setAttribute('hidden', '');
+    }
+  }
+
+  var consent = getCookie(COOKIE) || getCookie(LEGACY_COOKIE);
+  if (consent && !getCookie(COOKIE)) {
+    setCookie(COOKIE, consent, 365);
+    removeCookie(LEGACY_COOKIE);
+  }
+  if (consent === 'accepted') {
+    loadAnalytics();
+  } else if (!consent) {
+    showBanner();
+  }
+
+  if (banner) {
+    var acceptButton = banner.querySelector('.cookie-btn-accept');
+    var declineButton = banner.querySelector('.cookie-btn-decline');
+
+    if (acceptButton) {
+      acceptButton.addEventListener('click', function () {
+        setCookie(COOKIE, 'accepted', 365);
+        hideBanner();
+        loadAnalytics();
+      });
+    }
+
+    if (declineButton) {
+      declineButton.addEventListener('click', function () {
+        setCookie(COOKIE, 'declined', 365);
+        hideBanner();
+      });
+    }
+  }
+
+  var prefLink = document.getElementById('cookie-prefs-link');
+  if (prefLink) {
+    prefLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      removeCookie(COOKIE);
+      removeCookie(LEGACY_COOKIE);
+      showBanner();
+    });
+  }
+}());
+</script>
+{% endif %}

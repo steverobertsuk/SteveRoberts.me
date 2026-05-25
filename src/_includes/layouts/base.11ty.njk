@@ -31,6 +31,9 @@
     </main>
 
     {% include "partials/footer.11ty.njk" %}
+    {% if site.gaId %}
+      {% include "partials/cookie-banner.11ty.njk" %}
+    {% endif %}
 
     <script>
       // Mobile nav toggle
