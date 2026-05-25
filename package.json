@@ -4,9 +4,9 @@
   "private": true,
   "description": "Personal site of Steve Roberts — engineering, systems, APIs.",
   "scripts": {
-    "build": "eleventy",
+    "build": "eleventy && node ./scripts/check-accessible-names.mjs _site",
     "serve": "eleventy --serve --port=8082",
-    "watch": "eleventy --serve --watch --port=8082",
+    "watch": "node ./scripts/watch.mjs",
     "clean": "rm -rf _site",
     "format": "prettier --write . --ignore-unknown",
     "format:check": "prettier --check . --ignore-unknown"
