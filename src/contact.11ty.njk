@@ -66,11 +66,141 @@ permalink: /contact/
     <i class="fa-solid fa-lightbulb" aria-hidden="true"></i> creative technical projects</li>
 </ul>
 
-<div class="panel">
-  <h3 style="margin-top:0;">A note on the contact form</h3>
-  <p style="margin-bottom:0;">
-    A future version of this site will include a privacy-conscious contact form using
-    Cloudflare Turnstile for spam protection, serverless form handling, rate limiting, and
-    clear purpose options. For now, the links above are the best way to reach me.
+<h2>
+  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+  <span>Send a message</span></h2>
+
+<form id="contact-form" novalidate>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="cf-name">Name</label>
+      <input type="text" id="cf-name" name="name" autocomplete="name" required/>
+    </div>
+    <div class="form-group">
+      <label for="cf-email">Email address</label>
+      <input type="email" id="cf-email" name="email" autocomplete="email" required/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="cf-subject">What's this about?</label>
+    <select id="cf-subject" name="subject" required>
+      <option value="">Select a topic</option>
+      <option value="Software engineering">Software engineering</option>
+      <option value="Infrastructure and automation">Infrastructure and automation</option>
+      <option value="Roll20 development">Roll20 development</option>
+      <option value="Podcasting and livestreaming">Podcasting and livestreaming</option>
+      <option value="Online communities">Online communities</option>
+      <option value="General enquiry">General enquiry</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="cf-message">Message</label>
+    <textarea id="cf-message" name="message" rows="6" maxlength="5000" required></textarea>
+  </div>
+  <div id="cf-turnstile"></div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn--primary" id="cf-submit">
+      <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+      <span class="btn-label">Send message</span>
+    </button>
+  </div>
+</form>
+
+<div class="panel panel--accent" id="cf-success" hidden>
+  <p>
+    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+    Message sent — I'll be in touch soon.
   </p>
 </div>
+<div class="panel" id="cf-error" hidden>
+  <p id="cf-error-text" style="color: var(--danger);"></p>
+</div>
+
+<script>
+  window.onTurnstileLoad = function () {
+    turnstile.render('#cf-turnstile', {
+      sitekey: 'YOUR_TURNSTILE_SITE_KEY',
+      theme: 'dark',
+      callback: function (token) { window._cfToken = token; },
+      'expired-callback': function () { window._cfToken = null; },
+      'error-callback': function () { window._cfToken = null; }
+    });
+  };
+</script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
+<script>
+  (function () {
+    var form = document.getElementById('contact-form');
+    var submitBtn = document.getElementById('cf-submit');
+    var successEl = document.getElementById('cf-success');
+    var errorEl = document.getElementById('cf-error');
+    var errorText = document.getElementById('cf-error-text');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (!window._cfToken) {
+        showError('Please wait for the security check to complete.');
+        return;
+      }
+
+      var name = form.querySelector('[name="name"]').value.trim();
+      var email = form.querySelector('[name="email"]').value.trim();
+      var subject = form.querySelector('[name="subject"]').value;
+      var message = form.querySelector('[name="message"]').value.trim();
+
+      if (!name || !email || !subject || !message) {
+        showError('Please fill in all fields.');
+        return;
+      }
+
+      setLoading(true);
+      hideStatus();
+
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          subject: subject,
+          message: message,
+          turnstileToken: window._cfToken
+        })
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          setLoading(false);
+          if (data.success) {
+            form.reset();
+            window._cfToken = null;
+            turnstile.reset('#cf-turnstile');
+            successEl.removeAttribute('hidden');
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            showError(data.error || 'Something went wrong. Please try again.');
+          }
+        })
+        .catch(function () {
+          setLoading(false);
+          showError('Something went wrong. Please try again.');
+        });
+    });
+
+    function setLoading(loading) {
+      submitBtn.disabled = loading;
+      submitBtn.querySelector('.btn-label').textContent = loading ? 'Sending…' : 'Send message';
+    }
+
+    function showError(msg) {
+      errorText.textContent = msg;
+      errorEl.removeAttribute('hidden');
+      successEl.setAttribute('hidden', '');
+    }
+
+    function hideStatus() {
+      successEl.setAttribute('hidden', '');
+      errorEl.setAttribute('hidden', '');
+    }
+  })();
+</script>
