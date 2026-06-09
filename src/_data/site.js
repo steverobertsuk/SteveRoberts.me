@@ -1,7 +1,7 @@
 // Load .env without external dependencies (no dotenv package required)
 (function loadDotEnv() {
-  const fs = require("fs");
-  const path = require("path");
+  const fs = require("node:fs");
+  const path = require("node:path");
   try {
     const envPath = path.resolve(__dirname, "../../.env");
     const lines = fs.readFileSync(envPath, "utf-8").split(/\r?\n/);
@@ -21,7 +21,7 @@
       }
       process.env[key] = value;
     }
-  } catch (_) {
+  } catch {
     // .env not present — fine in CI / production
   }
 })();
@@ -31,8 +31,8 @@ module.exports = {
   tagline: "Code · Support · Geek",
   description:
     "Steve Roberts — Senior Software Engineer in Suffolk, England. Sustainable engineering, automation, media production, gaming, and long-term community projects.",
-  url: process.env.SITE_URL || "https://steveroberts.me",
-  gaId: process.env.GA_MEASUREMENT_ID || "",
+  url: process.env.SITE || "https://steveroberts.me",
+  gaId: process.env.GA_MEASUREMENT_ID || "G-2PKDMXF8MS",
   author: "Steve Roberts",
   location: "Suffolk, England",
   email: "midnitegeek@googlemail.com",
