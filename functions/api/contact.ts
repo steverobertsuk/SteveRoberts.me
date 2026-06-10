@@ -79,7 +79,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     Source: env.SES_FROM_EMAIL,
     'Destination.ToAddresses.member.1': env.SES_TO_EMAIL,
     'ReplyToAddresses.member.1': email.trim(),
-    'Message.Subject.Data': `Contact: ${subject}`,
+    'Message.Subject.Data': `SR.me Contact: ${subject} from ${name.trim()}`,
     'Message.Subject.Charset': 'UTF-8',
     'Message.Body.Text.Data': [
       `Name:    ${name.trim()}`,
