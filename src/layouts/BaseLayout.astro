@@ -139,10 +139,6 @@ const social = {
 
     <footer class="site-footer">
       <div class="container site-footer__inner">
-        <div class="site-footer__brand">
-          <strong>{siteName}</strong>
-          <span>{tagline}</span>
-        </div>
         <nav class="site-footer__links" aria-label="Footer">
           <ul>
             <li>
@@ -156,14 +152,14 @@ const social = {
                 <span>LinkedIn</span></a>
             </li>
             <li>
-              <a href={social.holosuite} rel="noopener">
-                <i class="fa-solid fa-podcast fa-fw" aria-hidden="true"></i>
-                <span>Holosuite Media</span></a>
-            </li>
-            <li>
               <a href={social.gaming} rel="noopener">
                 <i class="fa-solid fa-gamepad fa-fw" aria-hidden="true"></i>
                 <span>Gaming</span></a>
+            </li>
+            <li>
+              <a href={social.holosuite} rel="noopener">
+                <i class="fa-solid fa-podcast fa-fw" aria-hidden="true"></i>
+                <span>Holosuite Media</span></a>
             </li>
             <li>
               <a href={social.shadow} rel="noopener">
@@ -172,12 +168,20 @@ const social = {
             </li>
           </ul>
         </nav>
-        <p class="site-footer__meta">
+        <div class="site-footer__info">
+          <div class="site-footer__brand">
+            <strong>{siteName}</strong>
+            <span>{tagline}</span>
+          </div>
+          <p class="site-footer__meta">
+            <a href="/">Home</a>
+            · <a href="/projects/">Projects</a>
+            · <a href="/contact/">Contact</a>
+          </p>
+        </div>
+        <p class="site-footer__legal">
           &copy; {new Date().getFullYear()}
           {author}
-          · <a href="/">Home</a>
-          · <a href="/projects/">Projects</a>
-          · <a href="/contact/">Contact</a>
           · <a href="/privacy/">Privacy Policy</a>
           {gaId && <> · <a href="#" id="cookie-prefs-link">Cookie Preferences</a></>}
         </p>
