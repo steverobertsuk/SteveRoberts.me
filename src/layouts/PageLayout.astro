@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
-const { title, description, eyebrow, pageIcon, lede } = Astro.props;
+const { title, description, eyebrow, lede } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -9,10 +9,7 @@ const { title, description, eyebrow, pageIcon, lede } = Astro.props;
     <header class="page-header">
       <div class="container">
         {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-        <h1>
-          {pageIcon && <i class={`${pageIcon} fa-fw`} aria-hidden="true" />}
-          <span>{title}</span>
-        </h1>
+        <h1>{title}</h1>
         {lede && <p class="lede">{lede}</p>}
       </div>
     </header>

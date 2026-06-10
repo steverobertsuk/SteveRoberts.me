@@ -21,7 +21,6 @@
   --danger: #f87171;
 
   --maxw: 72rem;
-  --maxw-prose: 44rem;
   --radius: 10px;
   --radius-lg: 16px;
 
@@ -382,7 +381,6 @@ blockquote {
   margin: 0;
 }
 
-.page-header h1 i,
 .section__head h2 i,
 .prose h2 i,
 .timeline h3 i,
@@ -400,12 +398,9 @@ blockquote {
 }
 
 .prose {
-  max-width: var(--maxw-prose);
+  max-width: var(--maxw);
   padding-top: 1.5rem;
   padding-bottom: 4rem;
-}
-.prose.prose--wide {
-  max-width: var(--maxw);
 }
 
 .prose h2 {
@@ -596,18 +591,8 @@ blockquote {
 
 .cards {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 1rem;
-}
-@media (min-width: 640px) {
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (min-width: 980px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 .card {
@@ -1005,8 +990,8 @@ textarea::placeholder {
 }
 
 select {
-  appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7896' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.85rem center;
