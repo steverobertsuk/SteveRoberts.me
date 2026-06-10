@@ -119,7 +119,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 <script is:inline>
   window.onTurnstileLoad = function () {
     turnstile.render('#cf-turnstile', {
-      sitekey: 'YOUR_TURNSTILE_SITE_KEY',
+      sitekey: '0x4AAAAAADiKSpg2pTil-h4_',
       theme: 'dark',
       callback: function (token) { window._cfToken = token; },
       'expired-callback': function () { window._cfToken = null; },
