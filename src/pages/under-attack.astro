@@ -1,0 +1,19 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title={"Checking Your Browser"}
+  eyebrow={"Security check"}
+  pageIcon={"fa-solid fa-shield-halved"}
+  lede={"Your browser is being checked before you continue to the site."}
+>
+<p>
+  This site is under heightened protection. The check completes automatically
+  within a few seconds — no action is needed.
+</p>
+<!-- Cloudflare replaces this token with the browser check widget when this
+     page is served from the zone's Non-Interactive Challenge custom page
+     slot. -->
+<div class="cf-error-details">::IM_UNDER_ATTACK_BOX::</div>
+</PageLayout>

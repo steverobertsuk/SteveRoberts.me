@@ -1,0 +1,24 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+const { title, description, eyebrow, pageIcon, lede } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="page">
+    <header class="page-header">
+      <div class="container">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h1>
+          {pageIcon && <i class={`${pageIcon} fa-fw`} aria-hidden="true" />}
+          <span>{title}</span>
+        </h1>
+        {lede && <p class="lede">{lede}</p>}
+      </div>
+    </header>
+
+    <div class="container prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

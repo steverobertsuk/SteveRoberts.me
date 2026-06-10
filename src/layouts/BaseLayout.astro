@@ -1,0 +1,212 @@
+---
+import '../styles/global.css';
+import CookieBanner from '../components/CookieBanner.astro';
+import pkg from '../../package.json';
+import { GA_ID } from '../config';
+
+const siteName = 'Steve Roberts';
+const tagline = 'Code · Support · Geek';
+const author = 'Steve Roberts';
+
+const {
+  title = '',
+  description = 'Steve Roberts — Senior Software Engineer in Suffolk, England. Sustainable engineering, automation, media production, gaming, and long-term community projects.',
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${siteName}` : `${siteName} — ${tagline}`;
+const siteBase = Astro.site ?? 'https://steveroberts.me';
+const canonical = new URL(Astro.url.pathname, siteBase).href;
+const imageAlt = `${siteName} — ${description}`;
+
+// Slug mirrors the derivation in scripts/generate-og-images.mjs
+const pageSlug =
+  Astro.url.pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'default';
+const ogImage = new URL(`/assets/og/${pageSlug}.png`, siteBase).href;
+const gaId = GA_ID;
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+
+const navItems = [
+  { label: 'Home', url: '/', icon: 'fa-solid fa-house' },
+  { label: 'Projects', url: '/projects/', icon: 'fa-solid fa-diagram-project' },
+  { label: 'Experience', url: '/experience/', icon: 'fa-solid fa-briefcase' },
+  { label: 'Media & Gaming', url: '/media/', icon: 'fa-solid fa-photo-film' },
+  { label: 'Running', url: '/running/', icon: 'fa-solid fa-person-running' },
+  { label: 'Now', url: '/now/', icon: 'fa-solid fa-clock' },
+  { label: 'Contact', url: '/contact/', icon: 'fa-solid fa-envelope' },
+];
+
+const social = {
+  github: 'https://github.com/steverobertsuk',
+  linkedin: 'https://www.linkedin.com/in/geekysteveroberts/',
+  holosuite: 'https://holosuitemedia.com',
+  gaming: 'https://midniteshadow.online',
+  shadow: 'https://shadowcomputers.co.uk',
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <meta name="version" content={pkg.version} />
+    <meta name="theme-color" content="#0B1220" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title || siteName} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title || siteName} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="alternate icon"
+      type="image/png"
+      href="/assets/img/SteveRoberts_320x320.png"
+    />
+    <link rel="preconnect" href="https://kit.fontawesome.com" crossorigin />
+    <link rel="preconnect" href="https://ka-p.fontawesome.com" crossorigin />
+    <script
+      is:inline
+      src="https://kit.fontawesome.com/2d2904d507.js"
+      crossorigin="anonymous"
+      data-cfasync="false"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/" aria-label={`${siteName} — home`}>
+          <span class="brand__mark" aria-hidden="true">
+            <img src="/assets/img/sr-monogram-flat.svg" width="36" height="36" alt="" />
+          </span>
+          <span class="brand__text">
+            <span class="brand__name">{siteName}</span>
+            <span class="brand__tag">{tagline}</span>
+          </span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Toggle navigation"
+        >
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <ul>
+            {
+              navItems.map((item) => (
+                <li>
+                  <a
+                    href={item.url}
+                    aria-current={isActive(item.url) ? 'page' : undefined}
+                  >
+                    <i class={`${item.icon} fa-fw`} aria-hidden="true" />
+                    <span>{item.label}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <div class="site-footer__brand">
+          <strong>{siteName}</strong>
+          <span>{tagline}</span>
+        </div>
+        <nav class="site-footer__links" aria-label="Footer">
+          <ul>
+            <li>
+              <a href={social.github} rel="me noopener">
+                <i class="fa-brands fa-github fa-fw" aria-hidden="true"></i>
+                <span>GitHub</span></a>
+            </li>
+            <li>
+              <a href={social.linkedin} rel="me noopener">
+                <i class="fa-brands fa-linkedin fa-fw" aria-hidden="true"></i>
+                <span>LinkedIn</span></a>
+            </li>
+            <li>
+              <a href={social.holosuite} rel="noopener">
+                <i class="fa-solid fa-podcast fa-fw" aria-hidden="true"></i>
+                <span>Holosuite Media</span></a>
+            </li>
+            <li>
+              <a href={social.gaming} rel="noopener">
+                <i class="fa-solid fa-gamepad fa-fw" aria-hidden="true"></i>
+                <span>Gaming</span></a>
+            </li>
+            <li>
+              <a href={social.shadow} rel="noopener">
+                <i class="fa-solid fa-computer fa-fw" aria-hidden="true"></i>
+                <span>Shadow Computers</span></a>
+            </li>
+          </ul>
+        </nav>
+        <p class="site-footer__meta">
+          &copy; {new Date().getFullYear()}
+          {author}
+          · <a href="/">Home</a>
+          · <a href="/projects/">Projects</a>
+          · <a href="/contact/">Contact</a>
+          · <a href="/privacy/">Privacy Policy</a>
+          {gaId && <> · <a href="#" id="cookie-prefs-link">Cookie Preferences</a></>}
+        </p>
+      </div>
+    </footer>
+
+    {gaId && <CookieBanner gaId={gaId} />}
+
+    <script is:inline>
+      // Mobile nav toggle
+      (function () {
+        var btn = document.querySelector('.nav-toggle');
+        var nav = document.getElementById('site-nav');
+        if (!btn || !nav) return;
+        btn.addEventListener('click', function () {
+          var open = nav.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        // Close on link click (mobile)
+        nav.addEventListener('click', function (e) {
+          if (
+            e.target.tagName === 'A' &&
+            window.matchMedia('(max-width: 720px)').matches
+          ) {
+            nav.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

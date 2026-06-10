@@ -1,0 +1,19 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title={"Security Check"}
+  eyebrow={"Security check"}
+  pageIcon={"fa-solid fa-shield-halved"}
+  lede={"Complete the security check to continue to the site."}
+>
+<p>
+  This site is protected against automated traffic. Complete the security
+  check below and you'll be on your way.
+</p>
+<!-- Cloudflare replaces this token with the challenge widget when this page
+     is served from the zone's Managed Challenge / Interactive Challenge /
+     Country Challenge custom page slots. -->
+<div class="cf-error-details">::CAPTCHA_BOX::</div>
+</PageLayout>

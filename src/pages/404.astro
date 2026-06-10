@@ -1,0 +1,20 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title={"Page Not Found"}
+  eyebrow={"Error 404"}
+  pageIcon={"fa-solid fa-compass"}
+  lede={"The page you're looking for doesn't exist or may have been moved."}
+>
+<p>
+  Check the URL for typos, or head back to the homepage and use the navigation
+  to find what you were after.
+</p>
+<p>
+  <a class="btn btn--primary" href="/">
+    <i class="fa-solid fa-house" aria-hidden="true"></i>
+    <span>Return home</span></a>
+</p>
+</PageLayout>

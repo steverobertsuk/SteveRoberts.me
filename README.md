@@ -2,27 +2,37 @@
 
 Personal site for Steve Roberts — Senior Software Engineer, Suffolk, England.
 
-Built with [Eleventy](https://www.11ty.dev/) (11ty). Dark theme, mobile-first, no JS framework, no build step beyond the static site generator.
+Built with [Astro](https://astro.build/). Dark theme, mobile-first, no JS framework — fully static output deployed to Cloudflare Pages. Uses the same configuration, build pipeline, and tooling as the MidNiteShadowOnline site.
 
 ## Stack
 
-- **SSG:** Eleventy 3.x (Nunjucks templates)
-- **Styling:** plain CSS (custom properties, no Tailwind, no PostCSS)
-- **Hosting target:** Cloudflare Pages
-- **Node:** 20.x or 22.x
+- **SSG:** Astro (static output) with the `@astrojs/cloudflare` adapter
+- **Styling:** plain CSS (custom properties, no Tailwind, no PostCSS) in `src/styles/global.css`
+- **Hosting target:** Cloudflare Pages (build output `dist/client`)
+- **Node:** 24.x (see `.node-version`)
 
 ## Local development
 
 ```bash
 npm install
-npm run serve       # http://localhost:8082 with live reload
-npm run build       # one-off build into _site/
-npm run clean       # remove _site/
+npm run dev         # http://localhost:8082 with live reload
+npm run watch       # dev server via scripts/watch.mjs (optional background build)
+npm run build       # astro check + build + OG images into dist/client/
+npm run build:local # build + accessible-name audit
+npm run preview     # preview the production build on :8082
 ```
+
+## OG images
+
+`npm run build` generates a 1200×630 Open Graph image per page (satori +
+resvg) into `public/assets/og/` (cached) and `dist/client/assets/og/`.
+`BaseLayout.astro` points `og:image` at `/assets/og/<slug>.png` using the same
+slug derivation as the generator. Use `npm run og:generate` to force-regenerate
+all images.
 
 ## Accessibility check
 
-`npm run build` now includes an automated audit for heading and anchor accessible names in generated HTML (`_site`).
+`npm run build:local` includes an automated audit for heading and anchor accessible names in generated HTML (`dist`).
 
 The audit fails the build if any `<h1>`-`<h6>` or `<a>` element has no accessible name.
 
@@ -37,76 +47,72 @@ Accepted name sources:
 To run only the audit after a build:
 
 ```bash
-node ./scripts/check-accessible-names.mjs _site
-```
-
-Watch mode also runs the same audit when source files change:
-
-```bash
-npm run watch
+node ./scripts/check-accessible-names.mjs dist
 ```
 
 ## Project structure
 
 ```
 .
-├── .eleventy.js            # Eleventy configuration
+├── astro.config.mjs        # Astro config (static output, Cloudflare adapter)
+├── wrangler.toml           # Cloudflare Pages config (dist/client output)
+├── wrangler.dev.toml       # Local adapter config (no pages_build_output_dir)
 ├── package.json
-├── src/
-│   ├── _data/site.js       # Global site data: title, tagline, nav, social
-│   ├── _includes/
-│   │   ├── layouts/
-│   │   │   ├── base.11ty.njk    # HTML shell, meta tags, scripts
-│   │   │   └── page.11ty.njk    # Standard page wrapper with header + prose
-│   │   └── partials/
-│   │       ├── nav.11ty.njk     # Site header + responsive nav
-│   │       └── footer.11ty.njk
-│   ├── assets/
-│   │   ├── css/style.css   # All site styles
-│   │   └── img/            # SR monogram, proposal sheet
+├── functions/
+│   └── api/contact.ts      # Cloudflare Pages Function — contact form (Turnstile + SES)
+├── public/
+│   ├── _headers            # Security headers
 │   ├── favicon.svg
 │   ├── robots.txt
-│   ├── index.11ty.njk           # Home
-│   ├── experience.11ty.njk
-│   ├── now.11ty.njk
-│   ├── timeline.11ty.njk
-│   ├── tools.11ty.njk
-│   ├── contact.11ty.njk
-│   ├── running.11ty.njk
-│   ├── projects/
-│   │   ├── index.11ty.njk
-│   │   ├── sto-info.11ty.njk
-│   │   ├── roll20.11ty.njk
-│   │   └── shadow-computers.11ty.njk
-│   ├── media/
-│   │   ├── index.11ty.njk       # Gaming, media & creative
-│   │   └── holosuite.11ty.njk
-│   └── themes/
-│       ├── community.11ty.njk
-│       ├── long-term-projects.11ty.njk
-│       ├── storytelling.11ty.njk
-│       └── sustainability.11ty.njk
-└── _site/                  # Build output (gitignored)
+│   └── assets/
+│       ├── img/            # SR monogram, profile image
+│       └── og/             # Generated OG images (build cache)
+├── scripts/
+│   ├── generate-og-images.mjs
+│   ├── check-accessible-names.mjs
+│   └── watch.mjs
+└── src/
+    ├── config.ts           # Build-time constants (GA Measurement ID)
+    ├── styles/global.css   # All site styles
+    ├── components/
+    │   └── CookieBanner.astro
+    ├── layouts/
+    │   ├── BaseLayout.astro     # HTML shell, meta tags, nav, footer, scripts
+    │   └── PageLayout.astro     # Standard page wrapper with header + prose
+    └── pages/              # One .astro file per route
+        ├── index.astro
+        ├── contact.astro
+        ├── experience.astro
+        ├── now.astro
+        ├── timeline.astro
+        ├── tools.astro
+        ├── running.astro
+        ├── privacy.astro
+        ├── projects/…
+        ├── media/…
+        └── themes/…
 ```
 
 ## Adding a new page
 
-Create `src/<slug>.11ty.njk` (or any nested folder) with this front matter:
+Create `src/pages/<slug>.astro` (or any nested folder):
 
-```njk
+```astro
 ---
-layout: layouts/page.11ty.njk
-title: My new page
-eyebrow: Section
-lede: One sentence summary that appears under the title.
-permalink: /my-new-page/
+import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<h2>Body content</h2>
-<p>…</p>
+<PageLayout
+  title={"My new page"}
+  eyebrow={"Section"}
+  lede={"One sentence summary that appears under the title."}
+>
+  <h2>Body content</h2>
+  <p>…</p>
+</PageLayout>
 ```
 
-Then add it to the global nav by editing `src/_data/site.js` if it should appear there.
+Then add it to `navItems` in `src/layouts/BaseLayout.astro` if it should appear in the global nav.
 
 ## Branding
 
@@ -120,7 +126,7 @@ Palette and monogram come from the SR Monogram Proposal supplied with the planni
 | Surface      | `#111827` | Cards, panels, inline code              |
 | Text / Light | `#E5E7EB` | Body text                               |
 
-These are defined as CSS custom properties at the top of `src/assets/css/style.css` — change them there and the whole site re-themes.
+These are defined as CSS custom properties at the top of `src/styles/global.css` — change them there and the whole site re-themes.
 
 ## Deploying to Cloudflare Pages
 
@@ -130,14 +136,16 @@ These are defined as CSS custom properties at the top of `src/assets/css/style.c
 
    | Setting                | Value                            |
    | ---------------------- | -------------------------------- |
-   | Framework preset       | None (or Eleventy)               |
+   | Framework preset       | Astro                            |
    | Build command          | `npm run build`                  |
-   | Build output directory | `_site`                          |
+   | Build output directory | `dist/client`                    |
    | Root directory         | `/`                              |
-   | Node version           | `20` (env var `NODE_VERSION=20`) |
+   | Node version           | `24` (from `.node-version`)      |
 
 4. Add a custom domain (`steveroberts.me`) under Pages → Custom domains.
 5. Cloudflare Pages will rebuild on every push to `main`.
+
+The contact form Pages Function (`functions/api/contact.ts`) needs these secrets set on the Pages project: `TURNSTILE_SECRET_KEY`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `SES_FROM_EMAIL`, `SES_TO_EMAIL`.
 
 For preview deploys, any non-`main` branch will get its own URL automatically.
 

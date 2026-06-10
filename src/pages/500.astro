@@ -1,0 +1,23 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title={"Server Error"}
+  eyebrow={"Error 500"}
+  pageIcon={"fa-solid fa-triangle-exclamation"}
+  lede={"Something went wrong on the server. This isn't your fault."}
+>
+<p>
+  The server encountered an unexpected condition. Please try again in a
+  moment — the details below explain what happened.
+</p>
+<!-- Cloudflare replaces this token with its diagnostic box when this page
+     is served from the zone's "5XX Errors" custom error page slot. -->
+<div class="cf-error-details">::CLOUDFLARE_ERROR_500S_BOX::</div>
+<p>
+  <a class="btn btn--primary" href="/">
+    <i class="fa-solid fa-house" aria-hidden="true"></i>
+    <span>Return home</span></a>
+</p>
+</PageLayout>

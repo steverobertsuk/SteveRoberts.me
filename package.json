@@ -1,24 +1,42 @@
 {
   "name": "steveroberts-me",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "type": "module",
   "private": true,
   "description": "Personal site of Steve Roberts — engineering, systems, APIs.",
   "scripts": {
-    "build": "eleventy && node ./scripts/check-accessible-names.mjs _site",
-    "serve": "eleventy --serve --port=8082",
+    "dev": "astro dev",
+    "build": "astro check && astro build && node --use-system-ca ./scripts/generate-og-images.mjs dist && node ./scripts/copy-error-pages.mjs dist && node -e \"const fs=require('fs');['.wrangler/deploy/config.json','dist/client/wrangler.json'].forEach(p=>{try{fs.unlinkSync(p)}catch(_){}})\"",
+    "build:local": "npm run build && node ./scripts/check-accessible-names.mjs dist",
+    "og:generate": "astro build && node --use-system-ca ./scripts/generate-og-images.mjs --force dist",
+    "preview": "astro preview",
     "watch": "node ./scripts/watch.mjs",
-    "clean": "rm -rf _site",
     "format": "prettier --write . --ignore-unknown",
-    "format:check": "prettier --check . --ignore-unknown"
+    "format:check": "prettier --check . --ignore-unknown",
+    "release:patch": "npm version patch --no-git-tag-version"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/cloudflare": "^13.6.1",
+    "@astrojs/mdx": "^6.0.2",
+    "@resvg/resvg-wasm": "^2.6.2",
+    "astro": "^6.4.5",
+    "aws4fetch": "^1.0.20",
+    "satori": "^0.26.0",
+    "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "yaml-language-server": {
+      "yaml": "^2.9.0"
+    }
   },
   "engines": {
     "node": ">=24"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.5",
-    "prettier": "^3.8.3"
-  },
-  "dependencies": {
-    "aws4fetch": "^1.0.20"
+    "@types/node": "^25.9.2",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "sharp": "^0.34.5"
   }
 }

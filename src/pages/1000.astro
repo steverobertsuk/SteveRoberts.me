@@ -1,0 +1,23 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title={"Connection Error"}
+  eyebrow={"Error 1XXX"}
+  pageIcon={"fa-solid fa-cloud-bolt"}
+  lede={"Cloudflare could not reach this site."}
+>
+<p>
+  Something went wrong between Cloudflare and this site. The details below
+  explain what happened — please try again in a few minutes.
+</p>
+<!-- Cloudflare replaces this token with its diagnostic box when this page
+     is served from the zone's "1XXX Errors" custom error page slot. -->
+<div class="cf-error-details">::CLOUDFLARE_ERROR_1000S_BOX::</div>
+<p>
+  <a class="btn btn--primary" href="/">
+    <i class="fa-solid fa-house" aria-hidden="true"></i>
+    <span>Return home</span></a>
+</p>
+</PageLayout>

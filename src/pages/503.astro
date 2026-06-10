@@ -1,0 +1,20 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title={"Service Unavailable"}
+  eyebrow={"Error 503"}
+  pageIcon={"fa-solid fa-screwdriver-wrench"}
+  lede={"The site is temporarily unavailable."}
+>
+<p>
+  The site is undergoing maintenance or is briefly overloaded. This shouldn't
+  last long — please try again in a few moments.
+</p>
+<p>
+  <a class="btn btn--primary" href="/">
+    <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+    <span>Try again</span></a>
+</p>
+</PageLayout>
