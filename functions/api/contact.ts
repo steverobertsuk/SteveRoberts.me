@@ -50,6 +50,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return jsonError(400, 'Invalid subject.');
   }
 
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    return jsonError(400, 'Please enter a valid email address.');
+  }
+
   if (message.trim().length > 5000) {
     return jsonError(400, 'Message must be 5,000 characters or fewer.');
   }
@@ -76,7 +80,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const body = new URLSearchParams({
     Action: 'SendEmail',
     Version: '2010-12-01',
-    Source: env.SES_FROM_EMAIL,
+    Source: `"SteveRoberts.me Contact Form" <${env.SES_FROM_EMAIL}>`,
     'Destination.ToAddresses.member.1': env.SES_TO_EMAIL,
     'ReplyToAddresses.member.1': email.trim(),
     'Message.Subject.Data': `SR.me Contact: ${subject} from ${name.trim()}`,

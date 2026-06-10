@@ -106,14 +106,14 @@ import PageLayout from '../layouts/PageLayout.astro';
   </div>
 </form>
 
-<div class="panel panel--accent" id="cf-success" hidden>
+<div class="panel panel--success" id="cf-success" hidden>
   <p>
     <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
     Message sent — I'll be in touch soon.
   </p>
 </div>
-<div class="panel" id="cf-error" hidden>
-  <p id="cf-error-text" style="color: var(--danger);"></p>
+<div class="panel panel--error" id="cf-error" hidden>
+  <p id="cf-error-text"></p>
 </div>
 
 <script is:inline>
@@ -151,6 +151,11 @@ import PageLayout from '../layouts/PageLayout.astro';
 
       if (!name || !email || !subject || !message) {
         showError('Please fill in all fields.');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('Please enter a valid email address.');
         return;
       }
 
