@@ -435,7 +435,10 @@ blockquote {
 .hero {
   padding: 5rem 0 3rem;
   position: relative;
-  overflow: hidden;
+  /* Clip only horizontally: the ::before glow hangs off the right edge, but
+     clipping vertically would slice it with a hard line at the hero's bottom. */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 .hero::before {
   content: "";
@@ -511,6 +514,19 @@ blockquote {
   z-index: 1;
   width: 100%;
   height: 100%;
+}
+.hero__monogram img {
+  /* Fade all four edges so the photo's baked-in glow melts into the page
+     background instead of ending at the square's hard edges. The two layers
+     (horizontal + vertical) are intersected to vignette every side. */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 18%, #000 92%, transparent),
+    linear-gradient(to bottom, transparent, #000 14%, #000 82%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 18%, #000 92%, transparent),
+    linear-gradient(to bottom, transparent, #000 14%, #000 82%, transparent);
+  mask-composite: intersect;
 }
 
 /* Buttons */
