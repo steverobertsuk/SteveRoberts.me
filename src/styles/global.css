@@ -1023,8 +1023,8 @@ label {
   color: var(--text-dim);
 }
 
-input[type='text'],
-input[type='email'],
+input[type="text"],
+input[type="email"],
 select,
 textarea {
   background: var(--surface);
@@ -1038,16 +1038,16 @@ textarea {
   width: 100%;
 }
 
-input[type='text']:focus,
-input[type='email']:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
 select:focus,
 textarea:focus {
   border-color: var(--accent);
   outline: none;
 }
 
-input[type='text']::placeholder,
-input[type='email']::placeholder,
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
 textarea::placeholder {
   color: var(--text-muted);
 }

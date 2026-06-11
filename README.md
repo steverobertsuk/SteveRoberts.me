@@ -134,13 +134,13 @@ These are defined as CSS custom properties at the top of `src/styles/global.css`
 2. In the Cloudflare dashboard → **Pages** → **Create a project** → **Connect to Git**.
 3. Pick the repo, then use these build settings:
 
-   | Setting                | Value                            |
-   | ---------------------- | -------------------------------- |
-   | Framework preset       | Astro                            |
-   | Build command          | `npm run build`                  |
-   | Build output directory | `dist/client`                    |
-   | Root directory         | `/`                              |
-   | Node version           | `24` (from `.node-version`)      |
+   | Setting                | Value                       |
+   | ---------------------- | --------------------------- |
+   | Framework preset       | Astro                       |
+   | Build command          | `npm run build`             |
+   | Build output directory | `dist/client`               |
+   | Root directory         | `/`                         |
+   | Node version           | `24` (from `.node-version`) |
 
 4. Add a custom domain (`steveroberts.me`) under Pages → Custom domains.
 5. Cloudflare Pages will rebuild on every push to `main`.
